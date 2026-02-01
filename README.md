@@ -16,6 +16,7 @@ The project follows a structured backend architecture with proper validation, ce
 - **Testing:** Jest, Supertest
 - **Architecture:** Layered structure (controllers, routes, middlewares)
 - **Error Handling:** Centralized error handling middleware
+- **Linting & Formatting:** ESLint, Prettier
 - **Tools:** Nodemon, dotenv
 
 ---
@@ -34,6 +35,7 @@ The project follows a structured backend architecture with proper validation, ce
 - RESTful API design
 - Automated testing using Jest and Supertest
 - Scalable and maintainable backend architecture
+- Enforced consistent code style using ESLint and Prettier
 
 ---
 
@@ -84,18 +86,13 @@ JWT_SECRET=your_test_jwt_secret
 
 ---
 
-### Run the server (development)
+## Available Scripts
 
 ```bash
-npm run dev
-```
-
----
-
-### Run tests
-
-```bash
-npm test
+npm run dev      # Start development server
+npm run lint     # Run ESLint checks
+npm run format   # Format code using Prettier
+npm test         # Run test suite
 ```
 
 ---
