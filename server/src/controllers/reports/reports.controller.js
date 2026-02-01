@@ -2,7 +2,7 @@ const {
   getMonthlyTotalByUser,
   getYearlyTotalByUser,
   getCategoryWiseSummaryByUser,
-} = require("../../repositories/reports/reports.repository");
+} = require('../../repositories/reports/reports.repository');
 
 async function getMonthlyExpenseTotal(req, res, next) {
   try {
@@ -37,25 +37,25 @@ async function getYearlyExpenseTotal(req, res, next) {
 async function getCategoryWiseSummary(req, res, next) {
   try {
     const { user_id } = req.user;
-    let { start_date, end_date } = req.query;
+    const { start_date, end_date } = req.query;
 
     if (start_date && end_date) {
       if (start_date > end_date) {
-        throw new Error("INVALID_INPUT");
+        throw new Error('INVALID_INPUT');
       }
     }
 
     const { total, category_results } = await getCategoryWiseSummaryByUser(
       user_id,
       start_date,
-      end_date,
+      end_date
     );
 
     return res.status(200).json({
       success: true,
       data: { totalSpent: total, categories: category_results.rows },
     });
-  } catch (error) {
+  } catch (err) {
     next(err);
   }
 }

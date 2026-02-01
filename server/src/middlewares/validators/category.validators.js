@@ -1,9 +1,9 @@
-const { body, query, param } = require("express-validator");
+const { body, query, param } = require('express-validator');
 
 const createCategoryValidator = [
-  body("name")
+  body('name')
     .trim()
-    .exists({ values: "falsy" })
+    .exists({ values: 'falsy' })
     .withMessage("Name shouldn't be empty")
     .bail()
     .isLength({ max: 50 })
@@ -11,27 +11,25 @@ const createCategoryValidator = [
 ];
 
 const getCategoryValidator = [
-  query("page_number")
+  query('page_number')
     .optional()
     .isInt({ min: 1 })
-    .withMessage("page number must be a number and greater than 0")
+    .withMessage('page number must be a number and greater than 0')
     .bail()
     .toInt(),
 
-  query("limit")
+  query('limit')
     .optional()
     .isInt({ min: 1, max: 30 })
-    .withMessage("Limit must be a number, it should be between 1 and 30")
+    .withMessage('Limit must be a number, it should be between 1 and 30')
     .bail()
     .toInt(),
 ];
 
 const updateCategoryValidator = [
-  param("category_id")
-    .isInt({ min: 1 })
-    .withMessage("Category ID must be a valid number"),
+  param('category_id').isInt({ min: 1 }).withMessage('Category ID must be a valid number'),
 
-  body("name")
+  body('name')
     .optional()
     .trim()
     .notEmpty()
@@ -42,9 +40,7 @@ const updateCategoryValidator = [
 ];
 
 const deleteCategoryValidator = [
-  param("category_id")
-    .isInt({ min: 1 })
-    .withMessage("Category ID must be a valid number"),
+  param('category_id').isInt({ min: 1 }).withMessage('Category ID must be a valid number'),
 ];
 
 module.exports = {

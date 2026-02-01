@@ -1,42 +1,40 @@
-const express = require("express");
+const express = require('express');
 const reports_Router = express.Router();
 const {
   getMonthlyExpenseTotal,
   getYearlyExpenseTotal,
   getCategoryWiseSummary,
-} = require("../controllers/reports/reports.controller");
+} = require('../controllers/reports/reports.controller');
 const {
   monthlyExpenseValidator,
   yearlyExpenseValidator,
   getCategoryWiseSummaryValidators,
-} = require("../middlewares/validators/reports.validators");
-const {
-  validateRequest,
-} = require("../middlewares/validators/validateRequest");
-const authMiddleware = require("../middlewares/auth.middleware");
+} = require('../middlewares/validators/reports.validators');
+const { validateRequest } = require('../middlewares/validators/validateRequest');
+const authMiddleware = require('../middlewares/auth.middleware');
 
 reports_Router.get(
-  "/monthly-total",
+  '/monthly-total',
   authMiddleware,
   monthlyExpenseValidator,
   validateRequest,
-  getMonthlyExpenseTotal,
+  getMonthlyExpenseTotal
 );
 
 reports_Router.get(
-  "/yearly-total",
+  '/yearly-total',
   authMiddleware,
   yearlyExpenseValidator,
   validateRequest,
-  getYearlyExpenseTotal,
+  getYearlyExpenseTotal
 );
 
 reports_Router.get(
-  "/category-summary",
+  '/category-summary',
   authMiddleware,
   getCategoryWiseSummaryValidators,
   validateRequest,
-  getCategoryWiseSummary,
+  getCategoryWiseSummary
 );
 
 module.exports = reports_Router;

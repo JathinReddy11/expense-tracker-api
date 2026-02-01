@@ -3,7 +3,7 @@ const {
   listCategories,
   renameCategory,
   categoryDelete,
-} = require("../../repositories/category/category.repository");
+} = require('../../repositories/category/category.repository');
 
 async function createCategory(req, res, next) {
   try {
@@ -11,9 +11,7 @@ async function createCategory(req, res, next) {
     const { user_id } = req.user;
 
     await addCategory(user_id, name);
-    return res
-      .status(201)
-      .json({ success: true, data: "successfully created" });
+    return res.status(201).json({ success: true, data: 'successfully created' });
   } catch (err) {
     next(err);
   }
@@ -22,13 +20,9 @@ async function createCategory(req, res, next) {
 async function getCategories(req, res, next) {
   try {
     const { user_id } = req.user;
-    let { page_number = 1, limit = 10 } = req.query;
+    const { page_number = 1, limit = 10 } = req.query;
 
-    const { results, total_count } = await listCategories(
-      user_id,
-      page_number,
-      limit,
-    );
+    const { results, total_count } = await listCategories(user_id, page_number, limit);
 
     const total_items = total_count;
     const total_pages = Math.ceil(total_items / limit);
@@ -56,12 +50,10 @@ async function updateCategory(req, res, next) {
 
     const result = await renameCategory(user_id, category_id, name);
     if (result.rowCount === 0) {
-      throw new Error("RESOURCE_NOT_FOUND");
+      throw new Error('RESOURCE_NOT_FOUND');
     }
 
-    return res
-      .status(200)
-      .json({ success: true, data: "Successfully updated" });
+    return res.status(200).json({ success: true, data: 'Successfully updated' });
   } catch (err) {
     return next(err);
   }
@@ -74,11 +66,9 @@ async function deleteCategory(req, res, next) {
 
     const results = await categoryDelete(user_id, category_id);
     if (results.rowCount === 0) {
-      throw new Error("RESOURCE_NOT_FOUND");
+      throw new Error('RESOURCE_NOT_FOUND');
     }
-    return res
-      .status(200)
-      .json({ success: true, data: "Deleted successfully" });
+    return res.status(200).json({ success: true, data: 'Deleted successfully' });
   } catch (err) {
     next(err);
   }

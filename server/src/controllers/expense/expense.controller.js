@@ -4,9 +4,9 @@ const {
   listExpenses,
   changeExpense,
   removeExpense,
-} = require("../../repositories/expense/expense.repository");
+} = require('../../repositories/expense/expense.repository');
 
-const { getReportCsv } = require("../../service/reports.service");
+const { getReportCsv } = require('../../service/reports.service');
 
 async function createExpense(req, res, next) {
   try {
@@ -15,7 +15,7 @@ async function createExpense(req, res, next) {
 
     const results = await isCategoryOwnedByUser(user_id, category_id);
     if (results.rowCount === 0) {
-      throw new Error("RESOURCE_NOT_FOUND");
+      throw new Error('RESOURCE_NOT_FOUND');
     }
 
     const insert_results = await insertExpense(
@@ -23,11 +23,9 @@ async function createExpense(req, res, next) {
       category_id,
       amount,
       description,
-      expense_date,
+      expense_date
     );
-    return res
-      .status(201)
-      .json({ success: true, data: insert_results.rows[0] });
+    return res.status(201).json({ success: true, data: insert_results.rows[0] });
   } catch (err) {
     next(err);
   }
@@ -37,33 +35,26 @@ async function getExpenses(req, res, next) {
   try {
     const { user_id } = req.user;
 
-    let {
-      page_number = 1,
-      limit = 10,
-      category_id,
-      startDate,
-      endDate,
-      sortBy,
-      order,
-    } = req.query;
+    const { page_number = 1, limit = 10, category_id, startDate, endDate } = req.query;
+    let { sortBy, order } = req.query;
 
     if (startDate && endDate) {
       if (startDate > endDate) {
-        throw new Error("INVALID_INPUT");
+        throw new Error('INVALID_INPUT');
       }
     }
 
     if (sortBy) {
       sortBy = sortBy.toLowerCase();
-      if (sortBy != "expense_date" && sortBy != "amount") {
-        sortBy = "expense_date";
+      if (sortBy != 'expense_date' && sortBy != 'amount') {
+        sortBy = 'expense_date';
       }
     }
 
     if (order) {
       order = order.toUpperCase();
-      if (order != "ASC" && order != "DESC") {
-        order = "DESC";
+      if (order != 'ASC' && order != 'DESC') {
+        order = 'DESC';
       }
     }
 
@@ -75,7 +66,7 @@ async function getExpenses(req, res, next) {
       sortBy,
       order,
       page_number,
-      limit,
+      limit
     );
 
     const total_items = count;
@@ -100,13 +91,13 @@ async function updateExpense(req, res, next) {
   try {
     const { user_id } = req.user;
     const expense_id = parseInt(req.params.expense_id);
-    if (!expense_id) throw new Error("INVALID_INPUT");
+    if (!expense_id) throw new Error('INVALID_INPUT');
     const { category_id, amount, description, expense_date } = req.body;
 
     if (category_id) {
       const results = await isCategoryOwnedByUser(user_id, category_id);
       if (results.rowCount === 0) {
-        throw new Error("RESOURCE_NOT_FOUND");
+        throw new Error('RESOURCE_NOT_FOUND');
       }
     }
 
@@ -116,15 +107,13 @@ async function updateExpense(req, res, next) {
       amount,
       description,
       user_id,
-      expense_date,
+      expense_date
     );
     if (updatedResults.rowCount === 0) {
-      throw new Error("RESOURCE_NOT_FOUND");
+      throw new Error('RESOURCE_NOT_FOUND');
     }
 
-    return res
-      .status(200)
-      .json({ success: true, data: updatedResults.rows[0] });
+    return res.status(200).json({ success: true, data: updatedResults.rows[0] });
   } catch (err) {
     next(err);
   }
@@ -134,15 +123,13 @@ async function deleteExpense(req, res, next) {
   try {
     const { user_id } = req.user;
     const expense_id = Number(req.params.expense_id);
-    if (!expense_id) throw new Error("INVALID_INPUT");
+    if (!expense_id) throw new Error('INVALID_INPUT');
 
     const results = await removeExpense(user_id, expense_id);
     if (results.rowCount === 0) {
-      throw new Error("RESOURCE_NOT_FOUND");
+      throw new Error('RESOURCE_NOT_FOUND');
     }
-    return res
-      .status(200)
-      .json({ success: true, data: "Successfully deleted" });
+    return res.status(200).json({ success: true, data: 'Successfully deleted' });
   } catch (err) {
     next(err);
   }
@@ -151,39 +138,33 @@ async function deleteExpense(req, res, next) {
 async function exportExpenses(req, res, next) {
   try {
     const { user_id } = req.user;
-    let { category_id, startDate, endDate, sortBy, order } = req.query;
+    const { category_id, startDate, endDate } = req.query;
+    let { sortBy, order } = req.query;
 
     if (startDate && endDate) {
       if (startDate > endDate) {
-        throw new Error("INVALID_INPUT");
+        throw new Error('INVALID_INPUT');
       }
     }
 
     if (sortBy) {
       sortBy = sortBy.toLowerCase();
-      if (sortBy != "expense_date" && sortBy != "amount") {
-        sortBy = "expense_date";
+      if (sortBy != 'expense_date' && sortBy != 'amount') {
+        sortBy = 'expense_date';
       }
     }
 
     if (order) {
       order = order.toUpperCase();
-      if (order != "ASC" && order != "DESC") {
-        order = "DESC";
+      if (order != 'ASC' && order != 'DESC') {
+        order = 'DESC';
       }
     }
 
-    const csv_string = await getReportCsv(
-      user_id,
-      category_id,
-      startDate,
-      endDate,
-      sortBy,
-      order,
-    );
+    const csv_string = await getReportCsv(user_id, category_id, startDate, endDate, sortBy, order);
 
-    res.setHeader("Content-type", "text/csv");
-    res.setHeader("Content-Disposition", "attachment; filename=report.csv");
+    res.setHeader('Content-type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=report.csv');
 
     return res.status(200).send(csv_string);
   } catch (err) {

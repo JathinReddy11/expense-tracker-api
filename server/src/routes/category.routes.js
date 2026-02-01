@@ -1,52 +1,50 @@
-const express = require("express");
+const express = require('express');
 const category_Router = express.Router();
 const {
   createCategory,
   getCategories,
   updateCategory,
   deleteCategory,
-} = require("../controllers/category/category.controller");
+} = require('../controllers/category/category.controller');
 const {
   createCategoryValidator,
   getCategoryValidator,
   updateCategoryValidator,
   deleteCategoryValidator,
-} = require("../middlewares/validators/category.validators");
-const {
-  validateRequest,
-} = require("../middlewares/validators/validateRequest");
-const authMiddleware = require("../middlewares/auth.middleware");
+} = require('../middlewares/validators/category.validators');
+const { validateRequest } = require('../middlewares/validators/validateRequest');
+const authMiddleware = require('../middlewares/auth.middleware');
 
 category_Router.post(
-  "/categories",
+  '/categories',
   authMiddleware,
   createCategoryValidator,
   validateRequest,
-  createCategory,
+  createCategory
 );
 
 category_Router.get(
-  "/categories",
+  '/categories',
   authMiddleware,
   getCategoryValidator,
   validateRequest,
-  getCategories,
+  getCategories
 );
 
 category_Router.patch(
-  "/categories/:category_id",
+  '/categories/:category_id',
   authMiddleware,
   updateCategoryValidator,
   validateRequest,
-  updateCategory,
+  updateCategory
 );
 
 category_Router.delete(
-  "/categories/:category_id",
+  '/categories/:category_id',
   authMiddleware,
   deleteCategoryValidator,
   validateRequest,
-  deleteCategory,
+  deleteCategory
 );
 
 module.exports = category_Router;

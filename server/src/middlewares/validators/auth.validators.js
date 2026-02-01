@@ -1,50 +1,50 @@
-const { body } = require("express-validator");
+const { body } = require('express-validator');
 
 const registerValidator = [
-  body("name")
+  body('name')
     .trim()
-    .exists({ values: "falsy" })
+    .exists({ values: 'falsy' })
     .withMessage("name shouldn't be empty")
     .bail()
     .isLength({ max: 50 })
     .withMessage("Description shouldn't exceed more than 50 characters."),
 
-  body("email")
+  body('email')
     .trim()
-    .exists({ values: "falsy" })
-    .withMessage("Email is required")
+    .exists({ values: 'falsy' })
+    .withMessage('Email is required')
     .bail()
     .toLowerCase()
     .isEmail()
-    .withMessage("Follow the correct email format")
+    .withMessage('Follow the correct email format')
     .bail()
     .isLength({ max: 50 })
     .withMessage("Email shouldn't exceed more than 50 characters."),
 
-  body("password")
+  body('password')
     .trim()
-    .exists({ values: "falsy" })
-    .withMessage("Password is required")
+    .exists({ values: 'falsy' })
+    .withMessage('Password is required')
     .bail()
     .isLength({ min: 8 })
     .withMessage("Password shouldn't be less than 8 characters."),
 ];
 
 const loginValidator = [
-  body("email")
+  body('email')
     .trim()
-    .exists({ values: "falsy" })
-    .withMessage("Email is required")
+    .exists({ values: 'falsy' })
+    .withMessage('Email is required')
     .bail()
     .toLowerCase()
     .isEmail()
-    .withMessage("Follow the correct email format"),
+    .withMessage('Follow the correct email format'),
 
-  body("password").notEmpty().withMessage("Password is required"),
+  body('password').notEmpty().withMessage('Password is required'),
 ];
 
 const updateValidator = [
-  body("name")
+  body('name')
     .optional()
     .trim()
     .notEmpty()
@@ -53,17 +53,17 @@ const updateValidator = [
     .isLength({ max: 50 })
     .withMessage("Description shouldn't exceed more than 50 characters."),
 
-  body("email")
+  body('email')
     .optional()
     .trim()
     .toLowerCase()
     .isEmail()
-    .withMessage("Follow the correct email format")
+    .withMessage('Follow the correct email format')
     .bail()
     .isLength({ max: 50 })
     .withMessage("Email shouldn't exceed more than 50 characters."),
 
-  body("password")
+  body('password')
     .optional()
     .trim()
     .notEmpty()

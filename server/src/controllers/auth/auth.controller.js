@@ -1,11 +1,11 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const {
   addUser,
   getUserByEmail,
   updateUser,
   deleteUser,
-} = require("../../repositories/user/user.repository");
+} = require('../../repositories/user/user.repository');
 
 async function register(req, res, next) {
   try {
@@ -13,9 +13,7 @@ async function register(req, res, next) {
     const hashed_password = await bcrypt.hash(password, 10);
 
     await addUser(name, email, hashed_password);
-    res
-      .status(201)
-      .json({ success: true, data: "User registered successfully" });
+    res.status(201).json({ success: true, data: 'User registered successfully' });
   } catch (err) {
     next(err);
   }
@@ -27,12 +25,12 @@ async function login(req, res, next) {
     const user = await getUserByEmail(email);
 
     if (!user) {
-      throw new Error("INVALID_CREDENTIALS");
+      throw new Error('INVALID_CREDENTIALS');
     }
 
     const match = await bcrypt.compare(password, user.hashed_password);
     if (!match) {
-      throw new Error("Unauthorized");
+      throw new Error('Unauthorized');
     }
 
     const payload = {
@@ -40,7 +38,7 @@ async function login(req, res, next) {
       email,
     };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
-      expiresIn: "1d",
+      expiresIn: '1d',
     });
 
     res.status(200).json({ success: true, data: token });
@@ -61,12 +59,10 @@ async function updateProfile(req, res, next) {
 
     const result = await updateUser(user_id, name, email, hashed_password);
     if (result.rowCount === 0) {
-      throw new Error("RESOURCE_NOT_FOUND");
+      throw new Error('RESOURCE_NOT_FOUND');
     }
 
-    return res
-      .status(200)
-      .json({ success: true, data: "Successfully updated" });
+    return res.status(200).json({ success: true, data: 'Successfully updated' });
   } catch (err) {
     next(err);
   }
@@ -78,12 +74,10 @@ async function deleteProfile(req, res, next) {
 
     const result = await deleteUser(user_id);
     if (result.rowCount === 0) {
-      throw new Error("RESOURCE_NOT_FOUND");
+      throw new Error('RESOURCE_NOT_FOUND');
     }
 
-    return res
-      .status(200)
-      .json({ success: true, data: "User successfully deleted" });
+    return res.status(200).json({ success: true, data: 'User successfully deleted' });
   } catch (err) {
     next(err);
   }

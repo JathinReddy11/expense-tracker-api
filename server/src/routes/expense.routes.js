@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const expense_Router = express.Router();
 const {
   createExpense,
@@ -6,57 +6,49 @@ const {
   updateExpense,
   deleteExpense,
   exportExpenses,
-} = require("../controllers/expense/expense.controller");
+} = require('../controllers/expense/expense.controller');
 const {
   createExpenseValidator,
   getExpenseValidator,
   updateExpenseValidator,
   deleteExpenseValidator,
   exportExpenseValidator,
-} = require("../middlewares/validators/expense.validators");
-const {
-  validateRequest,
-} = require("../middlewares/validators/validateRequest");
-const authMiddleware = require("../middlewares/auth.middleware");
+} = require('../middlewares/validators/expense.validators');
+const { validateRequest } = require('../middlewares/validators/validateRequest');
+const authMiddleware = require('../middlewares/auth.middleware');
 
 expense_Router.post(
-  "/expenses",
+  '/expenses',
   authMiddleware,
   createExpenseValidator,
   validateRequest,
-  createExpense,
+  createExpense
 );
 
-expense_Router.get(
-  "/expenses",
-  authMiddleware,
-  getExpenseValidator,
-  validateRequest,
-  getExpenses,
-);
+expense_Router.get('/expenses', authMiddleware, getExpenseValidator, validateRequest, getExpenses);
 
 expense_Router.patch(
-  "/expenses/:expense_id",
+  '/expenses/:expense_id',
   authMiddleware,
   updateExpenseValidator,
   validateRequest,
-  updateExpense,
+  updateExpense
 );
 
 expense_Router.delete(
-  "/expenses/:expense_id",
+  '/expenses/:expense_id',
   authMiddleware,
   deleteExpenseValidator,
   validateRequest,
-  deleteExpense,
+  deleteExpense
 );
 
 expense_Router.get(
-  "/expenses/export",
+  '/expenses/export',
   authMiddleware,
   exportExpenseValidator,
   validateRequest,
-  exportExpenses,
+  exportExpenses
 );
 
 module.exports = expense_Router;
