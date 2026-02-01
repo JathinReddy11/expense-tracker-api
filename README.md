@@ -53,7 +53,8 @@ The project follows a structured backend architecture with proper validation, ce
 
 ```bash
 git clone <your-repo-url>
-cd expense-tracker/server
+cd expense-tracker
+cd server
 ```
 
 ---
@@ -86,13 +87,29 @@ JWT_SECRET=your_test_jwt_secret
 
 ---
 
-## Available Scripts
+## Database Setup
+
+This project uses PostgreSQL.
+
+### Steps:
+
+1. Create a database:
 
 ```bash
-npm run dev      # Start development server
-npm run lint     # Run ESLint checks
-npm run format   # Format code using Prettier
-npm test         # Run test suite
+createdb expense_tracker
+```
+
+2. Run the schema file:
+
+```bash
+psql -U postgres -d expense_tracker -f database/schema.sql
+```
+
+3. Configure environment variables in `.env`:
+
+```env
+DATABASE_URL=postgresql://username:password@localhost:5432/expense_tracker
+JWT_SECRET=your_secret_key
 ```
 
 ---
@@ -110,10 +127,10 @@ http://localhost:5000
 ### Auth
 
 ```
-POST    auth/register   → Register a new user
-POST    auth/login      → Login user
-PATCH   auth/update     → Update user
-DELETE  auth/delete     → delete user
+POST    /auth/register   → Register a new user
+POST    /auth/login      → Login user
+PATCH   /auth/update     → Update user
+DELETE  /auth/delete     → delete user
 ```
 
 ### Categories
