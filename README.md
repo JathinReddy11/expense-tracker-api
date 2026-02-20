@@ -1,27 +1,48 @@
-# Expense Tracker API
+# Expense Tracker (Full Stack)
 
-A RESTful backend application for managing personal expenses.  
-Built with Node.js and Express, the API supports user authentication, secure expense management, and clean data handling.
+A full stack expense tracking application for managing personal finances.
 
-The project follows a structured backend architecture with proper validation, centralized error handling, and scalable design practices.
+The backend is built with Node.js and Express and provides a RESTful API with JWT based authentication.  
+The frontend is built using React (Vite) and integrates with the backend using a centralized API communication layer.
+
+The application supports secure user authentication, persistent login sessions, protected routes, and automatic session invalidation using interceptor based token handling.
 
 ---
 
 ## Tech Stack
 
-- **Backend:** Node.js, Express.js
-- **Database:** PostgreSQL
-- **Authentication:** JWT (JSON Web Tokens)
-- **Validation:** Custom request validators
-- **Testing:** Jest, Supertest
-- **Architecture:** Layered structure (controllers, routes, middlewares)
-- **Error Handling:** Centralized error handling middleware
-- **Linting & Formatting:** ESLint, Prettier
-- **Tools:** Nodemon, dotenv
+**Backend**
+
+- Node.js
+- Express.js
+- PostgreSQL
+- JWT Authentication
+- Jest & Supertest
+- Custom validation middleware
+
+**Frontend**
+
+- React (Vite)
+- React Router
+- Axios
+- Centralized API Layer
+- JWT Request Interceptor
+- Global 401 Response Interceptor
 
 ---
 
 ## Features
+
+**Frontend Architecture**
+
+- The React frontend communicates with the backend using a centralized Axios instance.
+- All HTTP communication is handled through a single API client.
+- JWT tokens are automatically attached to protected requests using a request interceptor.
+- Token expiry and invalid sessions are handled globally using a response interceptor.
+- Service layer modules abstract backend endpoints from UI components.
+- UI components never interact with Axios directly.
+
+**Backend Architecture**
 
 - User registration and authentication using JWT
 - Secure authorization (users can access only their own data)
@@ -165,7 +186,17 @@ GET /reports/category-summary     → Category-wide summary
 
 ### Authentication
 
-All protected routes require a JWT token in the header:
+- User registers using the Register page.
+- User logs in using valid credentials.
+- Backend returns JWT token.
+- Token is stored in browser localStorage.
+- ProtectedRoute allows access to private routes based on token existence.
+- Axios request interceptor attaches JWT automatically to protected requests.
+- If backend returns 401 Unauthorized:
+- Token is removed automatically.
+- User is redirected to login.
+- Protected routes become inaccessible.
+- Persistent login is supported across page refreshes.
 
 ```
 Authorization: Bearer <token>

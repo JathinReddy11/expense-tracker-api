@@ -41,7 +41,7 @@ async function login(req, res, next) {
       expiresIn: '1d',
     });
 
-    res.status(200).json({ success: true, data: token });
+    res.status(200).json({ success: true, data: { token } });
   } catch (err) {
     next(err);
   }

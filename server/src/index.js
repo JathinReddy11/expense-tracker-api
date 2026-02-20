@@ -8,14 +8,14 @@ const app = express();
 const helmet = require('helmet');
 app.use(helmet());
 
-// const cors = require("cors");
-// app.use(
-//   cors({
-//     origin: "https://myfrontend.com",
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     credentials: true,
-//   }),
-// );
+const cors = require('cors');
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    credentials: true,
+  })
+);
 
 const auth_Router = require('./routes/auth.routes');
 const category_Router = require('./routes/category.routes');

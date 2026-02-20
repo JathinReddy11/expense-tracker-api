@@ -6,6 +6,9 @@ const registerValidator = [
     .exists({ values: 'falsy' })
     .withMessage("name shouldn't be empty")
     .bail()
+    .matches(/^[A-Za-z\s]+$/)
+    .withMessage('Name should contain only letters')
+    .bail()
     .isLength({ max: 50 })
     .withMessage("Description shouldn't exceed more than 50 characters."),
 
@@ -49,6 +52,9 @@ const updateValidator = [
     .trim()
     .notEmpty()
     .withMessage("name shouldn't be empty")
+    .bail()
+    .matches(/^[A-Za-z\s]+$/)
+    .withMessage('Name should contain only letters')
     .bail()
     .isLength({ max: 50 })
     .withMessage("Description shouldn't exceed more than 50 characters."),
