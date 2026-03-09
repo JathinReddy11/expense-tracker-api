@@ -41,11 +41,12 @@ The application supports secure user authentication, persistent login sessions, 
 - Token expiry and invalid sessions are handled globally using a response interceptor.
 - Service layer modules abstract backend endpoints from UI components.
 - UI components never interact with Axios directly.
+- Reusable form components handle both creation and editing flows to avoid duplicated logic.
 
 **Backend Architecture**
 
 - User registration and authentication using JWT
-- Secure authorization (users can access only their own data)
+- Secure authorization ensuring users can access only their own resources.
 - CRUD operations for expenses and categories
 - Pagination and filtering for expense records
 - Monthly and yearly expense summaries
@@ -59,6 +60,21 @@ The application supports secure user authentication, persistent login sessions, 
 - Enforced consistent code style using ESLint and Prettier
 
 ---
+
+### Frontend User Features
+
+The React frontend provides a complete interface for managing personal expenses.
+
+Users can:
+
+- Register and login securely
+- Create new expenses using a reusable form component
+- Edit existing expenses
+- View expenses with pagination and filtering
+- Select categories using a dropdown populated from the backend
+- Automatically refresh expense lists after mutations
+- Maintain authenticated sessions using JWT tokens
+- Automatically logout when token expires
 
 ## Setup and Run
 

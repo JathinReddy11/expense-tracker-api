@@ -1,11 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
+import { removeToken } from "../utils/auth";
 
 export default function Navbar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
+    removeToken();
+    navigate("/login", { replace: true });
   };
 
   return (

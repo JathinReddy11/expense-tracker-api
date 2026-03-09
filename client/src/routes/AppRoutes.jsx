@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import ProtectedRoute from "../components/ProtectedRoute";
+import ProtectedLayout from "../layouts/ProtectedLayout";
 
 // Auth pages
 import Login from "../pages/auth/Login";
@@ -21,14 +22,6 @@ import Reports from "../pages/reports/Reports";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: (
-      <ProtectedRoute>
-        <Dashboard />
-      </ProtectedRoute>
-    ),
-  },
-  {
     path: "/login",
     element: <Login />,
   },
@@ -37,44 +30,20 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: "/expenses",
+    path: "/",
     element: (
       <ProtectedRoute>
-        <Expenses />
+        <ProtectedLayout />
       </ProtectedRoute>
     ),
-  },
-  {
-    path: "/expenses/add",
-    element: (
-      <ProtectedRoute>
-        <AddExpense />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/expenses/edit/:expense_id",
-    element: (
-      <ProtectedRoute>
-        <EditExpense />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/categories",
-    element: (
-      <ProtectedRoute>
-        <Categories />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: "/reports",
-    element: (
-      <ProtectedRoute>
-        <Reports />
-      </ProtectedRoute>
-    ),
+    children: [
+      { path: "/expenses", element: <Expenses /> },
+      { path: "/expenses/add", element: <AddExpense /> },
+      { path: "/expenses/edit/:expense_id", element: <EditExpense /> },
+      { path: "/categories", element: <Categories /> },
+      { path: "/reports", element: <Reports /> },
+      { index: true, element: <Dashboard /> },
+    ],
   },
 ]);
 

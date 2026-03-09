@@ -1,8 +1,19 @@
 import api from "./api";
 
-export async function getExpenses() {
-  const response = await api.get("/expense/expenses");
-  return response.data;
+export async function getExpenses(query) {
+  const response = await api.get("/expense/expenses", {
+    params: {
+      page_number: query.page,
+      limit: query.limit,
+      sortBy: query.sortBy,
+      order: query.order,
+      startDate: query.startDate,
+      endDate: query.endDate,
+      category_id: query.category_id,
+      expense_id: query.expense_id,
+    },
+  });
+  return response.data.data;
 }
 
 export async function createExpense(expenseData) {
@@ -10,7 +21,7 @@ export async function createExpense(expenseData) {
   return response.data;
 }
 
-export async function updataExpense(id, expenseData) {
+export async function updateExpense(id, expenseData) {
   const response = await api.patch(`/expense/expenses/${id}`, expenseData);
   return response.data;
 }

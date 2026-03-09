@@ -40,6 +40,13 @@ const getExpenseValidator = [
     .bail()
     .toInt(),
 
+  query('expense_id')
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage('Expense id must be a number and greater than 0')
+    .bail()
+    .toInt(),
+
   query('page_number')
     .optional()
     .isInt({ min: 1 })

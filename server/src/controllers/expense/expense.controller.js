@@ -35,7 +35,7 @@ async function getExpenses(req, res, next) {
   try {
     const { user_id } = req.user;
 
-    const { page_number = 1, limit = 10, category_id, startDate, endDate } = req.query;
+    const { page_number = 1, limit = 10, category_id, startDate, endDate, expense_id } = req.query;
     let { sortBy, order } = req.query;
 
     if (startDate && endDate) {
@@ -60,6 +60,7 @@ async function getExpenses(req, res, next) {
 
     const { expense_results, count } = await listExpenses(
       user_id,
+      expense_id,
       category_id,
       startDate,
       endDate,

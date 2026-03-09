@@ -42,7 +42,7 @@ function errorHandler(err, req, res, _next) {
   }
 
   if (err.message === 'INVALID_INPUT') {
-    const error_status = 401;
+    const error_status = 400;
     const error_message = 'Invalid input';
     res.status(error_status).json({ success: false, error: { message: error_message } });
   }

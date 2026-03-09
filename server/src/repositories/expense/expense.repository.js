@@ -28,6 +28,7 @@ async function insertExpense(user_id, category_id, amount, description, expense_
 
 async function listExpenses(
   user_id,
+  expense_id,
   category_id,
   startDate,
   endDate,
@@ -45,6 +46,11 @@ async function listExpenses(
   if (user_id) {
     conditions.push(`e.user_id = $${values.length + 1}`);
     values.push(user_id);
+  }
+
+  if (expense_id) {
+    conditions.push(`e.expense_id = $${values.length + 1}`);
+    values.push(expense_id);
   }
 
   if (category_id) {
