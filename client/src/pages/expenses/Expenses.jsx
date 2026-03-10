@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getExpenses } from "../../services/expense.service";
+import { getExpenses, deleteExpense } from "../../services/expense.service";
 import { getCategories } from "../../services/category.service";
 import { useNavigate } from "react-router-dom";
 
@@ -19,6 +19,9 @@ export default function Expenses() {
   const [dateError, setDateError] = useState("");
   const [categoryInput, setCategoryInput] = useState("");
   const [categories, setCategories] = useState([]);
+  const [expenseId, setExpenseId] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,10 +76,36 @@ export default function Expenses() {
     navigate(`/expenses/edit/${expense_id}`);
   };
 
+  const openDialog = (expense_id) => {
+    setExpenseId(expense_id);
+    document.getElementById("myDialog").showModal();
+  };
+
+  const handleConfirmCancel = () => {
+    document.getElementById("myDialog").close();
+    setExpenseId(null);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      setDeleting(true);
+
+      await deleteExpense(expenseId);
+      setExpenseId(null);
+
+      setQuery((prev) => ({ ...prev }));
+
+      document.getElementById("myDialog").close();
+    } catch (err) {
+      setError("Something went wrong while deleting expense");
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   return (
     <div>
       <h1>Expenses Page</h1>
-
       <select
         value={query.sortBy}
         onChange={(e) =>
@@ -90,7 +119,6 @@ export default function Expenses() {
         <option value="expense_date">Date</option>
         <option value="amount">Amount</option>
       </select>
-
       <select
         value={query.order}
         onChange={(e) =>
@@ -104,7 +132,6 @@ export default function Expenses() {
         <option value="DESC">DESC</option>
         <option value="ASC">ASC</option>
       </select>
-
       <label htmlFor="startDate">Start Date:</label>
       <input
         type="date"
@@ -112,7 +139,6 @@ export default function Expenses() {
         value={startDateInput}
         onChange={(e) => setStartDateInput(e.target.value)}
       />
-
       <label htmlFor="endDate">End Date:</label>
       <input
         type="date"
@@ -121,10 +147,8 @@ export default function Expenses() {
         onChange={(e) => setEndDateInput(e.target.value)}
       />
       {dateError && <p>{dateError}</p>}
-
       <br />
       <br />
-
       <select
         value={categoryInput}
         onChange={(e) => setCategoryInput(e.target.value)}
@@ -146,11 +170,8 @@ export default function Expenses() {
       >
         Apply
       </button>
-
       {loading && <h2>Loading...</h2>}
-
       {error && <h2>{error}</h2>}
-
       {!loading &&
         !error &&
         (expenses.length === 0 ? (
@@ -164,11 +185,13 @@ export default function Expenses() {
                 <button onClick={() => handleEdit(expense.expense_id)}>
                   Edit
                 </button>
+                <button onClick={() => openDialog(expense.expense_id)}>
+                  Delete
+                </button>
               </li>
             ))}
           </ul>
         ))}
-
       {totalPages != 0 && (
         <div>
           {" "}
@@ -193,6 +216,17 @@ export default function Expenses() {
           </button>{" "}
         </div>
       )}
+      <dialog id="myDialog">
+        <p>This expense will be permanently deleted. Are you sure?</p>
+
+        <br />
+
+        <button onClick={handleConfirmDelete} disabled={deleting}>
+          {deleting ? "Deleting..." : "Confirm Delete"}
+        </button>
+        <button onClick={handleConfirmCancel}>Cancel</button>
+      </dialog>
+      ;
     </div>
   );
 }
