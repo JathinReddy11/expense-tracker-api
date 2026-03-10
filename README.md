@@ -1,6 +1,6 @@
 # Expense Tracker (Full Stack)
 
-A full stack expense tracking application for managing personal finances.
+A full stack expense tracking application for managing personal finances, built with a scalable backend architecture and a defensive, production style React frontend.
 
 The backend is built with Node.js and Express and provides a RESTful API with JWT based authentication.  
 The frontend is built using React (Vite) and integrates with the backend using a centralized API communication layer.
@@ -42,6 +42,10 @@ The application supports secure user authentication, persistent login sessions, 
 - Service layer modules abstract backend endpoints from UI components.
 - UI components never interact with Axios directly.
 - Reusable form components handle both creation and editing flows to avoid duplicated logic.
+- Confirmation dialogs prevent accidental destructive actions.
+- Delete operations include loading states to prevent duplicate API requests.
+- Expense lists automatically refetch after mutations to ensure UI consistency with backend data.
+- Defensive UI patterns ensure stable behavior during API failures.
 
 **Backend Architecture**
 
@@ -61,6 +65,16 @@ The application supports secure user authentication, persistent login sessions, 
 
 ---
 
+## UX Safety and Data Integrity
+
+The application implements defensive UI patterns to prevent accidental data loss and inconsistent state.
+
+- Destructive actions require explicit user confirmation.
+- Delete operations use loading states to prevent duplicate API requests.
+- UI disables actions while requests are in progress.
+- Expense lists automatically refetch after mutations to ensure frontend and backend data remain synchronized.
+- Error handling ensures UI remains stable even when API requests fail.
+
 ### Frontend User Features
 
 The React frontend provides a complete interface for managing personal expenses.
@@ -70,6 +84,7 @@ Users can:
 - Register and login securely
 - Create new expenses using a reusable form component
 - Edit existing expenses
+- Delete expenses with confirmation dialogs to prevent accidental removal
 - View expenses with pagination and filtering
 - Select categories using a dropdown populated from the backend
 - Automatically refresh expense lists after mutations
