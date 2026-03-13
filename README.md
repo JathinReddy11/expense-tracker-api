@@ -1,6 +1,6 @@
 # Expense Tracker (Full Stack)
 
-A full stack expense tracking application for managing personal finances, built with a scalable backend architecture and a defensive, production style React frontend.
+A full stack expense tracking application for managing personal finances, built with a scalable backend architecture and a defensive, production-style React frontend that supports full CRUD operations for expenses and categories.
 
 The backend is built with Node.js and Express and provides a RESTful API with JWT based authentication.  
 The frontend is built using React (Vite) and integrates with the backend using a centralized API communication layer.
@@ -51,7 +51,7 @@ The application supports secure user authentication, persistent login sessions, 
 
 - User registration and authentication using JWT
 - Secure authorization ensuring users can access only their own resources.
-- CRUD operations for expenses and categories
+- Full CRUD operations for both expenses and categories with proper validation and authorization
 - Pagination and filtering for expense records
 - Monthly and yearly expense summaries
 - Export expenses as CSV
@@ -77,19 +77,34 @@ The application implements defensive UI patterns to prevent accidental data loss
 
 ### Frontend User Features
 
-The React frontend provides a complete interface for managing personal expenses.
+The React frontend provides a complete interface for managing personal expenses and categories.
 
 Users can:
 
 - Register and login securely
-- Create new expenses using a reusable form component
-- Edit existing expenses
-- Delete expenses with confirmation dialogs to prevent accidental removal
-- View expenses with pagination and filtering
+- Create, edit, and delete expenses
+- View expenses with pagination, sorting, and filtering
 - Select categories using a dropdown populated from the backend
-- Automatically refresh expense lists after mutations
+- Create new categories directly from the Categories page
+- Edit categories using inline editing within the list
+- Delete categories with confirmation dialogs
+- Automatically refresh lists after mutations to stay synchronized with backend data
 - Maintain authenticated sessions using JWT tokens
 - Automatically logout when token expires
+
+## Category Management
+
+The application includes a dedicated Categories page that provides full CRUD functionality.
+
+Features include:
+
+- Fetch and display categories on page load
+- Add new categories using a validated input form
+- Inline editing of category names without leaving the page
+- Delete categories with confirmation dialogs
+- Loading states to prevent duplicate API requests
+- Clear error handling for failed operations
+- Automatic list refetch after add, update, and delete operations
 
 ## Setup and Run
 

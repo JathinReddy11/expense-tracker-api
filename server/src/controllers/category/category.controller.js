@@ -7,13 +7,15 @@ const {
 
 async function createCategory(req, res, next) {
   try {
+    console.log(req.body);
+    console.log(req.user);
     const { name } = req.body;
     const { user_id } = req.user;
 
     await addCategory(user_id, name);
     return res.status(201).json({ success: true, data: 'successfully created' });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 }
 
@@ -38,7 +40,7 @@ async function getCategories(req, res, next) {
       },
     });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 }
 
@@ -62,6 +64,7 @@ async function updateCategory(req, res, next) {
 async function deleteCategory(req, res, next) {
   try {
     const category_id = req.params.category_id;
+    console.log(category_id);
     const { user_id } = req.user;
 
     const results = await categoryDelete(user_id, category_id);
@@ -70,7 +73,7 @@ async function deleteCategory(req, res, next) {
     }
     return res.status(200).json({ success: true, data: 'Deleted successfully' });
   } catch (err) {
-    next(err);
+    return next(err);
   }
 }
 module.exports = {
