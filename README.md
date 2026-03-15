@@ -25,6 +25,7 @@ The application supports secure user authentication, persistent login sessions, 
 - React (Vite)
 - React Router
 - Axios
+- Recharts (data visualization)
 - Centralized API Layer
 - JWT Request Interceptor
 - Global 401 Response Interceptor
@@ -53,7 +54,9 @@ The application supports secure user authentication, persistent login sessions, 
 - Secure authorization ensuring users can access only their own resources.
 - Full CRUD operations for both expenses and categories with proper validation and authorization
 - Pagination and filtering for expense records
-- Monthly and yearly expense summaries
+- Monthly expense summary for a selected month and year
+- Yearly expense summary with month-by-month breakdown
+- Category-wise expense aggregation with percentage contribution
 - Export expenses as CSV
 - Input validation for all requests
 - Proper HTTP status codes for all API responses
@@ -105,6 +108,21 @@ Features include:
 - Loading states to prevent duplicate API requests
 - Clear error handling for failed operations
 - Automatic list refetch after add, update, and delete operations
+
+## Reports and Data Visualization
+
+The application includes a Reports dashboard that allows users to analyze their spending patterns.
+
+Features include:
+
+- Monthly expense summary for a selected month and year
+- Yearly expense summary with a full month-by-month breakdown
+- Category-wise expense summary showing total spending per category
+- Percentage contribution of each category to overall spending
+- Interactive pie chart visualization for category spending distribution
+- Defensive UI states for loading, empty data, and API failures
+
+The reports are generated using backend aggregation queries and visualized in the frontend using the Recharts library.
 
 ## Setup and Run
 

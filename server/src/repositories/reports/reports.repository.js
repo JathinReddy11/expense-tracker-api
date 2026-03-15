@@ -2,11 +2,11 @@ const pool = require('../../db');
 
 async function getMonthlyTotalByUser(user_id, start_date, end_date) {
   const result = await pool.query(
-    `SELECT COALESCE(SUM(amount), 0) AS total FROM expenses 
+    `SELECT COALESCE(SUM(amount), 0) AS total, COALESCE(COUNT(amount), 0) AS total_expenses FROM expenses 
     WHERE user_id = $1 AND expense_date >= $2 AND expense_date < $3`,
     [user_id, start_date, end_date]
   );
-  return result.rows[0].total;
+  return result.rows[0];
 }
 
 async function getYearlyTotalByUser(user_id, start_date, end_date) {
