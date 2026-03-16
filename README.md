@@ -57,7 +57,7 @@ The application supports secure user authentication, persistent login sessions, 
 - Monthly expense summary for a selected month and year
 - Yearly expense summary with month-by-month breakdown
 - Category-wise expense aggregation with percentage contribution
-- Export expenses as CSV
+- Export filtered expenses as downloadable CSV files
 - Input validation for all requests
 - Proper HTTP status codes for all API responses
 - Centralized error handling
@@ -234,7 +234,28 @@ POST   /expense/expenses                → Create expense
 GET    /expense/expenses                → Get expenses (pagination, filters)
 PATCH  /expense/expenses/:expense_id    → Update expense
 DELETE /expense/expenses/:expense_id    → Delete expense
-GET    /expense/expenses/export         → Export expenses as CSV
+GET    /expense/expenses/export         → Export filtered expenses as CSV
+```
+
+### Expense Export (CSV)
+
+Users can export their expenses as a CSV file from the Expenses page.
+
+The exported file reflects the **same filters applied in the UI**, including:
+
+- Category
+- Start Date
+- End Date
+- Sorting field
+- Sorting order
+
+Example CSV format:
+
+```
+category,amount,expense_date,description
+OTT,20.00,2026-03-03,Amazon Purchase
+Books,31.23,2026-01-14,Novels
+OTT,32.14,2025-11-26,OTT Subscription
 ```
 
 ### Reports

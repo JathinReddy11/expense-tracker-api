@@ -30,3 +30,17 @@ export async function deleteExpense(id) {
   const response = await api.delete(`/expense/expenses/${id}`);
   return response.data;
 }
+
+export async function exportExpenses(query) {
+  const response = await api.get("/expense/expenses/export", {
+    params: {
+      sortBy: query.sortBy,
+      order: query.order,
+      startDate: query.startDate,
+      endDate: query.endDate,
+      category_id: query.category_id,
+    },
+    responseType: "blob",
+  });
+  return response;
+}

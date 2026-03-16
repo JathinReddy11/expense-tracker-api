@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { getExpenses, deleteExpense } from "../../services/expense.service";
+import {
+  getExpenses,
+  deleteExpense,
+  exportExpenses,
+} from "../../services/expense.service";
 import { getCategories } from "../../services/category.service";
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +11,7 @@ export default function Expenses() {
   const [expenses, setExpenses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
   const [query, setQuery] = useState({
     page: 1,
     limit: 10,
@@ -14,13 +19,19 @@ export default function Expenses() {
     order: "DESC",
   });
   const [totalPages, setTotalPages] = useState(1);
+
   const [startDateInput, setStartDateInput] = useState("");
   const [endDateInput, setEndDateInput] = useState("");
   const [dateError, setDateError] = useState("");
+
   const [categoryInput, setCategoryInput] = useState("");
   const [categories, setCategories] = useState([]);
+
   const [expenseId, setExpenseId] = useState(null);
   const [deleting, setDeleting] = useState(false);
+
+  const [exportLoading, setExportLoading] = useState(false);
+  const [exportError, setExportError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -103,6 +114,29 @@ export default function Expenses() {
     }
   };
 
+  const handleExport = async () => {
+    setExportLoading(true);
+    setExportError(null);
+    try {
+      const response = await exportExpenses(query);
+
+      const blob = response.data;
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.download = "report.csv";
+      link.href = url;
+
+      link.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.log(err);
+      setExportError("Something went wrong while downloading the file");
+    } finally {
+      setExportLoading(false);
+    }
+  };
+
   return (
     <div>
       <h1>Expenses Page</h1>
@@ -170,6 +204,10 @@ export default function Expenses() {
       >
         Apply
       </button>
+      <button onClick={handleExport} disabled={exportLoading}>
+        {exportLoading ? "Exporting..." : "Export file"}
+      </button>
+      {exportError && <p>{exportError}</p>}
       {loading && <h2>Loading...</h2>}
       {error && <h2>{error}</h2>}
       {!loading &&

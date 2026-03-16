@@ -37,7 +37,7 @@ async function listExpenses(
   page_number,
   limit
 ) {
-  let query = `SELECT expense_id, e.category_id, c.name, amount, TO_CHAR(e.expense_date, 'YYYY-MM-DD') AS expense_date, description FROM expenses e
+  let query = `SELECT expense_id, c.name as Category, amount, TO_CHAR(e.expense_date, 'YYYY-MM-DD') AS expense_date, description FROM expenses e
     INNER JOIN categories c ON c.category_id =  e.category_id `;
 
   const conditions = [];
